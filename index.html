@@ -231,7 +231,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app);
+        window.db = getFirestore(app, "upwardeduai");
         window.storage = getStorage(app);
         window.fbMethods = { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL };
         console.log("Firebase Active");
