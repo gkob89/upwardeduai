@@ -1,159 +1,123 @@
-// 1. Get Firebase methods from the "Bridge" we built in HTML
 const { 
-    collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, 
+    collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc,
     ref, uploadBytes, getDownloadURL 
 } = window.fbMethods;
 
 const db = window.db;
 const storage = window.storage;
-
 let selectedFile = null;
 let allPosts = [];
 
-// --- ADMIN ACTIONS (Saving Data) ---
-
-// Handle Image Selection
+// 1. Image Preview Logic (Fixing your "folder opens but image won't keep" issue)
 window.handleImageUpload = (event) => {
     selectedFile = event.target.files[0];
     if (selectedFile) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            const uploadArea = document.getElementById('uploadArea');
-            uploadArea.innerHTML = `<img src="${e.target.result}" class="image-preview">`;
+            const preview = document.getElementById('imagePreviewContainer');
+            preview.innerHTML = `<img src="${e.target.result}" style="max-width:200px; margin-top:10px; border-radius:8px;">`;
         };
         reader.readAsDataURL(selectedFile);
     }
 };
 
-// Add Post to Firebase
-window.addPost = async (event) => {
-    event.preventDefault();
-    const btn = event.target.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.innerText = "Publishing...";
+// 2. Submit Logic (Handles both CREATE and EDIT)
+window.submitPost = async () => {
+    const docId = document.getElementById('edit-doc-id').value;
+    const title = document.getElementById('postTitle').value;
+    const excerpt = document.getElementById('postExcerpt').value;
+    const content = window.editor.root.innerHTML; // Gets Rich Text from Quill
 
     let imageUrl = "";
+    if (selectedFile) {
+        const sRef = ref(storage, `covers/${Date.now()}_${selectedFile.name}`);
+        const snap = await uploadBytes(sRef, selectedFile);
+        imageUrl = await getDownloadURL(snap.ref);
+    }
+
+    const postData = {
+        title, excerpt, content,
+        updatedAt: Date.now()
+    };
+    if (imageUrl) postData.image = imageUrl;
 
     try {
-        // 1. Upload Image to Storage if exists
-        if (selectedFile) {
-            const storageRef = ref(storage, `covers/${Date.now()}_${selectedFile.name}`);
-            const snapshot = await uploadBytes(storageRef, selectedFile);
-            imageUrl = await getDownloadURL(snapshot.ref);
+        if (docId) {
+            await updateDoc(doc(db, "posts", docId), postData);
+            alert("Updated!");
+        } else {
+            postData.createdAt = Date.now();
+            postData.date = new Date().toLocaleDateString();
+            await addDoc(collection(db, "posts"), postData);
+            alert("Published!");
         }
-
-        // 2. Save Data to Firestore
-        await addDoc(collection(db, "posts"), {
-            title: document.getElementById('postTitle').value,
-            category: document.getElementById('postCategory').value,
-            excerpt: document.getElementById('postExcerpt').value,
-            content: document.getElementById('postContent').value,
-            readTime: document.getElementById('postReadTime').value,
-            image: imageUrl,
-            createdAt: Date.now(),
-            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        });
-
-        alert("Success! Post is live.");
-        location.reload(); 
-    } catch (error) {
-        console.error(error);
-        alert("Error: " + error.message);
-        btn.disabled = false;
-        btn.innerText = "Publish Post";
-    }
+        location.reload();
+    } catch (e) { alert(e.message); }
 };
 
-// Delete Post
-window.deletePost = async (postId) => {
-    if (confirm("Delete this post permanently?")) {
-        try {
-            await deleteDoc(doc(db, "posts", postId));
-            location.reload();
-        } catch (error) {
-            alert("Error deleting: " + error.message);
-        }
-    }
-};
-
-// --- VISITOR ACTIONS (Reading Data) ---
-
-// Load Posts from Firebase
-async function loadPosts() {
-    const blogGrid = document.getElementById('blogGrid');
-    blogGrid.innerHTML = '<p style="color:white; text-align:center;">Loading insights...</p>';
-
-    try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-        const querySnapshot = await getDocs(q);
-        
-        allPosts = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-
-        renderPosts(allPosts);
-    } catch (error) {
-        console.error(error);
-        blogGrid.innerHTML = '<p style="color:red;">Error loading posts.</p>';
-    }
+// 3. Load Data for Grid & Dashboard
+async function loadData() {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    
+    renderGrid();
+    renderDashboard();
 }
 
-// Display Posts in the Grid
-function renderPosts(postsToRender) {
+function renderGrid() {
     const grid = document.getElementById('blogGrid');
-    
-    if (postsToRender.length === 0) {
-        grid.innerHTML = '<div class="empty-state"><h3>No posts yet.</h3></div>';
-        return;
-    }
-
-    grid.innerHTML = postsToRender.map(post => `
-        <div class="blog-card" data-category="${post.category}">
-            <img src="${post.image || 'https://via.placeholder.com/400x200'}" class="card-image" alt="${post.title}">
-            <div class="card-actions">
-                <button onclick="deletePost('${post.id}')">Delete</button>
-            </div>
-            <div class="card-content">
-                <span class="card-category">${post.category}</span>
-                <h2 class="card-title">${post.title}</h2>
-                <p class="card-excerpt">${post.excerpt}</p>
-                <div class="card-meta">
-                    <span>${post.date} • ${post.readTime} min read</span>
-                    <a href="#" class="read-more" onclick="event.preventDefault(); window.openModal('${post.id}')">Read More →</a>
+    grid.innerHTML = allPosts.map(p => `
+        <div class="blog-card">
+            <img src="${p.image || ''}" class="card-image">
+            <div class="card-body">
+                <h2 class="card-title">${p.title}</h2>
+                <p style="color:#888; font-size:0.9rem;">${p.excerpt}</p>
+                <div style="margin-top:15px; display:flex; justify-content:space-between;">
+                    <button onclick="window.sharePost('${p.title}')" style="background:none; border:none; color:var(--primary); cursor:pointer;">Share</button>
+                    <button onclick="alert('Open Modal Logic Here')" style="background:var(--primary); border:none; padding:5px 10px; border-radius:5px; color:white; cursor:pointer;">Read</button>
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-// Open Modal with Full Content
-window.openModal = (postId) => {
-    const post = allPosts.find(p => p.id === postId);
-    if (!post) return;
+function renderDashboard() {
+    const tbody = document.getElementById('dash-tbody');
+    tbody.innerHTML = allPosts.map(p => `
+        <tr>
+            <td>${p.title}</td>
+            <td>${p.date}</td>
+            <td>
+                <button onclick="window.editPost('${p.id}')">Edit</button>
+                <button onclick="window.deletePost('${p.id}')" style="color:red;">Delete</button>
+            </td>
+        </tr>
+    `).join('');
+}
 
-    document.getElementById('modalCategory').textContent = post.category;
-    document.getElementById('modalTitle').textContent = post.title;
-    document.getElementById('modalMeta').textContent = `${post.date} • ${post.readTime} min read`;
-    document.getElementById('modalContent').textContent = post.content;
+// 4. Edit/Delete Actions
+window.editPost = (id) => {
+    const p = allPosts.find(x => x.id === id);
+    document.getElementById('edit-doc-id').value = p.id;
+    document.getElementById('postTitle').value = p.title;
+    document.getElementById('postExcerpt').value = p.excerpt;
+    window.editor.root.innerHTML = p.content;
     
-    const header = document.getElementById('modalHeader');
-    header.innerHTML = post.image ? `<img src="${post.image}">` : '';
-    header.innerHTML += `<button class="modal-close" onclick="closePostModal()">×</button>`;
-
-    document.getElementById('postModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.getElementById('dashboard-list').style.display = 'none';
+    document.getElementById('post-form-section').style.display = 'block';
 };
 
-// Search & Filter Logic
-document.getElementById('searchBox').addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = allPosts.filter(p => 
-        p.title.toLowerCase().includes(term) || 
-        p.content.toLowerCase().includes(term)
-    );
-    renderPosts(filtered);
-});
+window.deletePost = async (id) => {
+    if(confirm("Delete?")) {
+        await deleteDoc(doc(db, "posts", id));
+        location.reload();
+    }
+};
 
-// Run on page load
-loadPosts();
+window.sharePost = (title) => {
+    const url = window.location.href;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title)}`);
+};
+
+loadData();
