@@ -28,7 +28,6 @@
 
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
-        /* Branding Header */
         header {
             text-align: center;
             padding: 80px 20px;
@@ -47,16 +46,7 @@
             border: 1px solid rgba(255,255,255,0.3); color: white;
             border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 600;
         }
-        .post-toggle:hover { background: rgba(255,255,255,0.25); }
 
-        /* Search & Filters */
-        .search-container { max-width: 600px; margin: 0 auto 30px; }
-        .search-box {
-            width: 100%; padding: 15px 25px; border-radius: 30px; border: 1px solid #333;
-            background: #1a1a1a; color: white; outline: none; font-size: 1rem;
-        }
-
-        /* 4-Column Symmetric Grid */
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -67,49 +57,33 @@
         .blog-card {
             background: var(--card-bg); border-radius: 16px; overflow: hidden;
             display: flex; flex-direction: column; border: 1px solid #222;
-            transition: transform 0.3s ease;
         }
-        .blog-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
         .card-image { width: 100%; height: 200px; object-fit: cover; background: #252525; }
-        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-body { padding: 20px; flex-grow: 1; }
         .card-title { font-size: 1.25rem; margin-bottom: 12px; font-weight: 700; color: #fff; }
-        
-        .card-excerpt {
-            color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;
-            display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-            overflow: hidden; height: 4.2em;
-        }
+        .card-excerpt { color: var(--text-muted); font-size: 0.9rem; height: 4.2em; overflow: hidden; }
 
-        .card-footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #333; }
-        
-        .btn-read { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
-        .btn-share { background: none; border: none; color: var(--primary); cursor: pointer; font-size: 0.85rem; font-weight: 600; }
-
-        /* Admin/Post Dashboard Overlay */
         .admin-panel {
             background: #fff; color: #333; border-radius: 20px; padding: 40px;
             display: none; position: fixed; top: 5%; left: 5%; width: 90%; height: 90%;
-            overflow-y: auto; z-index: 3000; box-shadow: 0 0 100px rgba(0,0,0,0.5);
+            overflow-y: auto; z-index: 3000;
         }
         .admin-panel.active { display: block; }
         
         .dashboard-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .dashboard-table th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #eee; }
-        .dashboard-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .dashboard-table th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
 
-        /* Login Overlay */
         .login-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
             z-index: 4000; align-items: center; justify-content: center; backdrop-filter: blur(5px);
         }
         .login-overlay.active { display: flex; }
 
-        /* Editor Height */
-        #editor-container { height: 350px; margin-bottom: 20px; background: #fff; }
+        #editor-container { height: 350px; margin-bottom: 20px; background: #fff; border: 1px solid #ccc; }
 
-        /* Modal Styles */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; overflow-y: auto; padding: 40px 20px; }
+        /* Modal Settings */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; padding: 40px 20px; overflow-y: auto;}
         .modal-overlay.active { display: block; }
         .modal-content { max-width: 900px; margin: 0 auto; background: white; color: #333; border-radius: 16px; overflow: hidden; }
         .modal-header img { width: 100%; height: 400px; object-fit: cover; }
@@ -129,77 +103,60 @@
             <p>by UPWARD EDU</p>
         </header>
 
-        <div class="search-container">
-            <input type="text" class="search-box" id="searchBox" placeholder="Search insights...">
-        </div>
-
-        <div class="blog-grid" id="blogGrid">
-            </div>
+        <div class="blog-grid" id="blogGrid"></div>
     </div>
 
     <div class="login-overlay" id="loginOverlay">
         <div style="background: white; padding: 40px; border-radius: 20px; width: 380px; text-align: center;">
-            <h2 style="color: #333; margin-bottom: 10px;">Portal Access</h2>
-            <p style="color: #666; margin-bottom: 25px;">Enter credentials to manage content</p>
-            <div id="errorMessage" style="color: red; margin-bottom: 10px; display: none;">Access Denied</div>
-            <input type="password" id="adminPassword" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px; font-size: 1rem;" placeholder="Password">
-            <button onclick="window.checkPassword()" style="width:100%; padding:15px; background: var(--primary); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:700;">Enter Dashboard</button>
+            <h2 style="color: #333; margin-bottom: 20px;">Portal Access</h2>
+            <div id="errorMessage" style="color: red; margin-bottom: 10px; display: none;">Incorrect Password</div>
+            <input type="password" id="adminPassword" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;" placeholder="Password">
+            <button onclick="window.checkPassword()" style="width:100%; padding:15px; background: var(--primary); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:700;">Login</button>
             <button onclick="window.closeLogin()" style="margin-top:15px; background:none; border:none; color:#999; cursor:pointer;">Cancel</button>
         </div>
     </div>
 
     <div class="admin-panel" id="adminPanel">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="font-size: 1.8rem;">Content Dashboard</h2>
-            <button onclick="window.closeAdmin()" style="padding: 10px 20px; cursor:pointer; border-radius:8px; border:1px solid #ddd;">Exit</button>
+            <h2>Dashboard</h2>
+            <button onclick="window.closeAdmin()">Close</button>
         </div>
 
         <div id="dashboard-list">
-            <button onclick="window.showCreateForm()" style="background: var(--primary); color:white; padding:12px 24px; border:none; border-radius:8px; cursor:pointer; font-weight:600;">+ New Post</button>
+            <button onclick="window.showCreateForm()" style="background: var(--primary); color:white; padding:12px 24px; border:none; border-radius:8px; cursor:pointer; margin-bottom: 20px;">+ New Post</button>
             <table class="dashboard-table">
                 <thead>
-                    <tr>
-                        <th>Article Title</th>
-                        <th>Published Date</th>
-                        <th>Actions</th>
-                    </tr>
+                    <tr><th>Title</th><th>Date</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="dash-tbody"></tbody>
             </table>
         </div>
 
         <div id="post-form-section" style="display: none;">
-            <h3 id="form-title" style="margin-bottom: 20px;">Create New Post</h3>
             <input type="hidden" id="edit-doc-id">
-            
-            <div style="margin-bottom: 20px;">
-                <label style="display:block; margin-bottom:8px; font-weight:600;">Post Title</label>
-                <input type="text" id="postTitle" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">
+            <div style="margin-bottom: 15px;">
+                <label>Title</label>
+                <input type="text" id="postTitle" style="width: 100%; padding: 10px;">
             </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display:block; margin-bottom:8px; font-weight:600;">Cover Image</label>
+            <div style="margin-bottom: 15px;">
+                <label>Cover Image</label>
                 <input type="file" id="imageInput" accept="image/*" onchange="window.handleImageUpload(event)">
                 <div id="imagePreviewContainer"></div>
             </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display:block; margin-bottom:8px; font-weight:600;">Short Excerpt (SEO)</label>
-                <textarea id="postExcerpt" style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; height:80px;"></textarea>
+            <div style="margin-bottom: 15px;">
+                <label>Excerpt (Short Description)</label>
+                <textarea id="postExcerpt" style="width: 100%; height: 60px; padding: 10px;"></textarea>
             </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display:block; margin-bottom:8px; font-weight:600;">Full Content (Formatting Enabled)</label>
+            <div style="margin-bottom: 15px;">
+                <label>Content</label>
                 <div id="editor-container"></div>
             </div>
-
-            <div style="margin-bottom: 30px;">
-                <label style="display:block; margin-bottom:8px; font-weight:600;">Read Time (mins)</label>
-                <input type="number" id="postReadTime" value="5" style="width:100px; padding:10px;">
+            <div style="margin-bottom: 15px;">
+                <label>Read Time (min)</label>
+                <input type="number" id="postReadTime" value="5" style="width: 80px;">
             </div>
-
-            <button onclick="window.submitPost()" style="background: var(--primary); color:white; padding:15px 30px; border:none; border-radius:10px; cursor:pointer; font-weight:700;">Save & Publish</button>
-            <button onclick="window.showDashboardList()" style="margin-left:15px; padding:15px; background:none; border:none; color:#666; cursor:pointer;">Back to List</button>
+            <button onclick="window.submitPost()" style="background: var(--primary); color:white; padding:15px 30px; border:none; border-radius:8px; cursor:pointer;">Save & Publish</button>
+            <button onclick="window.showDashboardList()" style="margin-left: 10px;">Back</button>
         </div>
     </div>
 
@@ -208,47 +165,47 @@
         <div class="modal-content">
             <div class="modal-header" id="modalHeader"></div>
             <div class="modal-body">
-                <h1 id="modalTitle" style="font-size: 2.5rem; margin-bottom: 10px;"></h1>
-                <p id="modalMeta" style="color: #888; margin-bottom: 30px;"></p>
-                <div id="modalContent" style="font-size: 1.1rem; line-height: 1.8;"></div>
+                <h1 id="modalTitle"></h1>
+                <p id="modalMeta" style="color: #888; margin-bottom: 20px;"></p>
+                <div id="modalContent"></div>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+        // Fix for Named Database: using initializeFirestore
+        import { initializeFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
         const firebaseConfig = {
-    apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
-    authDomain: "upward-edu-ai.firebaseapp.com",
-    projectId: "upward-edu-ai",
-    // THIS LINE MUST MATCH YOUR NEW BUCKET:
-    storageBucket: "upward-edu-ai.firebasestorage.app", 
-    messagingSenderId: "576087580584",
-    appId: "1:576087580584:web:29d1a63cb48acac34b879d"
+            apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
+            authDomain: "upward-edu-ai.firebaseapp.com",
+            projectId: "upward-edu-ai",
+            storageBucket: "upward-edu-ai.firebasestorage.app",
+            messagingSenderId: "576087580584",
+            appId: "1:576087580584:web:29d1a63cb48acac34b879d"
         };
 
         const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app, "upwardeduai");
-        window.storage = getStorage(app);
+        // Explicitly connect to named database "upwardeduai"
+        const db = initializeFirestore(app, {}, "upwardeduai");
+        const storage = getStorage(app);
+
+        window.db = db;
+        window.storage = storage;
         window.fbMethods = { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL };
-        console.log("Firebase Active");
     </script>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script>
-        const ADMIN_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'; // "123"
-        
-        // Init Quill
+        const ADMIN_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3';
         const quill = new Quill('#editor-container', {
             theme: 'snow',
-            modules: { toolbar: [['bold', 'italic', 'underline'], [{ 'color': [] }, { 'size': ['small', false, 'large', 'huge'] }], ['link', 'image', 'video']] }
+            modules: { toolbar: [['bold', 'italic', 'underline'], [{ 'color': [] }, { 'size': ['small', false, 'large', 'huge'] }], ['link', 'image']] }
         });
         window.editor = quill;
 
-        // UI Functions
         window.showLoginPrompt = () => document.getElementById('loginOverlay').classList.add('active');
         window.closeLogin = () => document.getElementById('loginOverlay').classList.remove('active');
         window.closeAdmin = () => document.getElementById('adminPanel').classList.remove('active');
@@ -259,7 +216,6 @@
         window.showCreateForm = () => {
             document.getElementById('dashboard-list').style.display = 'none';
             document.getElementById('post-form-section').style.display = 'block';
-            document.getElementById('form-title').innerText = "New Post";
             document.getElementById('edit-doc-id').value = "";
             window.editor.root.innerHTML = "";
             document.getElementById('postTitle').value = "";
@@ -267,20 +223,16 @@
             document.getElementById('imagePreviewContainer').innerHTML = "";
         };
 
-        window.hashPassword = async (pwd) => {
+        window.checkPassword = async () => {
+            const pwd = document.getElementById('adminPassword').value;
             const encoder = new TextEncoder();
             const data = encoder.encode(pwd);
             const hash = await crypto.subtle.digest('SHA-256', data);
-            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        };
-
-        window.checkPassword = async () => {
-            const pwd = document.getElementById('adminPassword').value;
-            const hashed = await window.hashPassword(pwd);
+            const hashed = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+            
             if(hashed === ADMIN_HASH) {
                 window.closeLogin();
                 document.getElementById('adminPanel').classList.add('active');
-                document.getElementById('errorMessage').style.display = 'none';
             } else {
                 document.getElementById('errorMessage').style.display = 'block';
             }
