@@ -79,10 +79,6 @@
             transition: all 0.3s ease;
         }
 
-        .admin-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
         .login-overlay {
             display: none;
             position: fixed;
@@ -96,9 +92,7 @@
             align-items: center;
         }
 
-        .login-overlay.active {
-            display: flex;
-        }
+        .login-overlay.active { display: flex; }
 
         .login-box {
             background: white;
@@ -109,11 +103,7 @@
             width: 90%;
         }
 
-        .login-box h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        .login-box h3 { color: #667eea; margin-bottom: 20px; text-align: center; }
 
         .login-box input {
             width: 100%;
@@ -124,20 +114,6 @@
             margin-bottom: 20px;
         }
 
-        .login-box input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .login-box .btn-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .login-box button {
-            flex: 1;
-        }
-
         .error-message {
             color: #e53e3e;
             font-size: 0.9rem;
@@ -146,9 +122,7 @@
             display: none;
         }
 
-        .error-message.show {
-            display: block;
-        }
+        .error-message.show { display: block; }
 
         .admin-panel {
             background: rgba(255, 255, 255, 0.98);
@@ -160,18 +134,9 @@
             display: none;
         }
 
-        .admin-panel.active {
-            display: block;
-        }
+        .admin-panel.active { display: block; }
 
-        .admin-panel h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
@@ -180,28 +145,12 @@
             color: #2d3748;
         }
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 1rem;
             font-family: inherit;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
         }
 
         .image-upload-area {
@@ -210,17 +159,6 @@
             padding: 30px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .image-upload-area:hover {
-            border-color: #667eea;
-            background: #f7fafc;
-        }
-
-        .image-upload-area.has-image {
-            padding: 0;
-            border: none;
         }
 
         .image-preview {
@@ -234,7 +172,6 @@
             padding: 12px 30px;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -245,46 +182,16 @@
             color: white;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-        }
+        .btn-secondary { background: #e2e8f0; color: #2d3748; margin-left: 10px; }
 
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #2d3748;
-            margin-left: 10px;
-        }
-
-        .btn-secondary:hover {
-            background: #cbd5e0;
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 30px auto;
-        }
+        .search-container { max-width: 600px; margin: 30px auto; }
 
         .search-box {
             width: 100%;
             padding: 15px 50px 15px 20px;
-            font-size: 1rem;
             border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 30px;
             background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-box:focus {
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-            background: white;
-            border-color: #667eea;
-        }
-
-        .search-box::placeholder {
-            color: #999;
         }
 
         .filters {
@@ -302,23 +209,9 @@
             color: white;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
 
-        .filter-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .filter-btn.active {
-            background: white;
-            color: #667eea;
-            font-weight: 600;
-            border-color: white;
-        }
+        .filter-btn.active { background: white; color: #667eea; font-weight: 600; }
 
         .blog-grid {
             display: grid;
@@ -331,37 +224,16 @@
             background: rgba(255, 255, 255, 0.98);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(102, 126, 234, 0.1);
             position: relative;
         }
 
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
+        .blog-card.hidden { display: none; }
 
-        .blog-card.hidden {
-            display: none;
-        }
+        .card-image { width: 100%; height: 200px; object-fit: cover; background: #333; }
 
-        .card-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .card-content {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
+        .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 
         .card-category {
             display: inline-block;
@@ -370,245 +242,43 @@
             color: white;
             border-radius: 15px;
             font-size: 0.8rem;
-            font-weight: 600;
             margin-bottom: 12px;
             align-self: flex-start;
         }
 
-        .card-title {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: #2d3748;
-            font-weight: 600;
-        }
+        .card-title { font-size: 1.4rem; color: #2d3748; margin-bottom: 12px; }
 
-        .card-excerpt {
-            color: #666;
-            margin-bottom: 15px;
-            flex-grow: 1;
-        }
+        .card-meta { display: flex; justify-content: space-between; color: #999; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 15px; }
 
-        .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #999;
-            font-size: 0.85rem;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
+        .card-actions { position: absolute; top: 10px; right: 10px; display: none; gap: 5px; }
 
-        .card-actions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: none;
-            gap: 5px;
-        }
-
-        .admin-panel.active ~ .container .card-actions {
-            display: flex;
-        }
-
-        .card-actions button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.95);
-            color: #e53e3e;
-            font-weight: 600;
-        }
-
-        .card-actions button:hover {
-            background: #e53e3e;
-            color: white;
-        }
+        .admin-panel.active ~ .container .card-actions { display: flex; }
 
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9);
             z-index: 2000;
-            overflow-y: auto;
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .modal-overlay.active { display: flex; align-items: center; justify-content: center; }
 
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
+        .modal-content { background: white; border-radius: 12px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; }
 
-        .modal-header {
-            position: relative;
-            height: 300px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px 12px 0 0;
-        }
+        .modal-header { height: 300px; background: #667eea; position: relative; }
 
-        .modal-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 12px 12px 0 0;
-        }
+        .modal-header img { width: 100%; height: 100%; object-fit: cover; }
 
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 1.5rem; }
 
-        .modal-close:hover {
-            background: white;
-            transform: scale(1.1);
-        }
+        .modal-body { padding: 40px; }
 
-        .modal-body {
-            padding: 40px;
-        }
+        .modal-text { line-height: 1.8; color: #4a5568; white-space: pre-wrap; }
 
-        .modal-category {
-            display: inline-block;
-            padding: 6px 16px;
-            background: #667eea;
-            color: white;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .modal-title {
-            font-size: 2rem;
-            color: #2d3748;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .modal-meta {
-            color: #999;
-            font-size: 0.9rem;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .modal-text {
-            color: #4a5568;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .share-section {
-            padding: 20px 0;
-            border-top: 2px solid #e2e8f0;
-            text-align: center;
-        }
-
-        .share-section h3 {
-            color: #2d3748;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .share-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 30px;
-            background: #1877f2;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .share-button:hover {
-            background: #0c63d4;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(24, 119, 242, 0.4);
-        }
-
-        .read-more {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .read-more:hover {
-            color: #764ba2;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-
-            .blog-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .admin-toggle {
-                position: static;
-                margin-top: 20px;
-            }
-        }
-
-        @media (max-width: 1024px) and (min-width: 769px) {
-            .blog-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 1400px) and (min-width: 1025px) {
-            .blog-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        @media (max-width: 1024px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .blog-grid { grid-template-columns: 1fr; } .admin-toggle { position: static; margin-top: 10px; } }
     </style>
 </head>
 <body>
@@ -624,12 +294,7 @@
         <div class="login-box">
             <h3>🔒 Admin Login</h3>
             <div class="error-message" id="errorMessage">Incorrect password</div>
-            <input 
-                type="password" 
-                id="adminPassword" 
-                placeholder="Enter admin password"
-                onkeypress="if(event.key === 'Enter') checkPassword()"
-            >
+            <input type="password" id="adminPassword" placeholder="Enter password" onkeypress="if(event.key === 'Enter') checkPassword()">
             <div class="btn-group">
                 <button class="btn btn-primary" onclick="checkPassword()">Login</button>
                 <button class="btn btn-secondary" onclick="closeLogin()">Cancel</button>
@@ -640,46 +305,38 @@
     <div class="admin-panel" id="adminPanel">
         <div class="container">
             <h2>Add New Post</h2>
-            <form id="postForm" onsubmit="addPost(event)">
+            <form id="postForm" onsubmit="window.addPost(event)">
                 <div class="form-group">
                     <label>Post Title</label>
-                    <input type="text" id="postTitle" required placeholder="Enter post title">
+                    <input type="text" id="postTitle" required>
                 </div>
-
                 <div class="form-group">
                     <label>Category</label>
                     <select id="postCategory" required>
-                        <option value="">Select category</option>
                         <option value="trends">Trends</option>
                         <option value="news">News</option>
                         <option value="skills">Skills</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Cover Image</label>
                     <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
-                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                        <p>Click to upload cover image</p>
-                        <p style="font-size: 0.9rem; color: #999;">JPG, PNG, or GIF (Max 5MB)</p>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="window.handleImageUpload(event)">
+                        <p>Click to upload image</p>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label>Excerpt</label>
-                    <textarea id="postExcerpt" required placeholder="Brief description of your post"></textarea>
+                    <textarea id="postExcerpt" required></textarea>
                 </div>
-
                 <div class="form-group">
                     <label>Full Content</label>
-                    <textarea id="postContent" required placeholder="Write your full post content here..." style="min-height: 200px;"></textarea>
+                    <textarea id="postContent" required style="min-height: 200px;"></textarea>
                 </div>
-
                 <div class="form-group">
-                    <label>Read Time (minutes)</label>
-                    <input type="number" id="postReadTime" required min="1" value="5">
+                    <label>Read Time (min)</label>
+                    <input type="number" id="postReadTime" required value="5">
                 </div>
-
                 <button type="submit" class="btn btn-primary">Publish Post</button>
                 <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear</button>
             </form>
@@ -696,349 +353,78 @@
                 <h1 class="modal-title" id="modalTitle"></h1>
                 <div class="modal-meta" id="modalMeta"></div>
                 <div class="modal-text" id="modalContent"></div>
-                <div class="share-section">
-                    <h3>Share this post</h3>
-                    <button class="share-button" onclick="shareToFacebook()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                        Share on Facebook
-                    </button>
-                </div>
             </div>
         </div>
     </div>
 
     <div class="container">
         <div class="search-container">
-            <input 
-                type="text" 
-                class="search-box" 
-                id="searchBox" 
-                placeholder="🔍 Search articles by title or content..."
-            >
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search articles...">
         </div>
-
         <div class="filters">
             <button class="filter-btn active" data-category="all">All Posts</button>
             <button class="filter-btn" data-category="trends">Trends</button>
             <button class="filter-btn" data-category="news">News</button>
             <button class="filter-btn" data-category="skills">Skills</button>
         </div>
-
         <div class="blog-grid" id="blogGrid"></div>
     </div>
 
-    <script>
-        let currentImage = null;
-        let posts = [];
-        let isAdminLoggedIn = false;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
-        // SHA-256 hash function
+        const firebaseConfig = {
+            apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
+            authDomain: "upward-edu-ai.firebaseapp.com",
+            projectId: "upward-edu-ai",
+            storageBucket: "upward-edu-ai.firebasestorage.app",
+            messagingSenderId: "576087580584",
+            appId: "1:576087580584:web:29d1a63cb48acac34b879d"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.storage = getStorage(app);
+        
+        // Exporting specific methods to window for app.js
+        window.fbMethods = { collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, ref, uploadBytes, getDownloadURL };
+        console.log("Firebase Connected!");
+    </script>
+
+    <script>
+        const ADMIN_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3';
+        let isAdmin = false;
+
         async function hashPassword(password) {
             const encoder = new TextEncoder();
             const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // REPLACE THIS HASH WITH YOUR OWN
-        // To generate your hash: Open browser console and type: 
-        // hashPassword('YourPasswordHere').then(hash => console.log(hash))
-        const ADMIN_PASSWORD_HASH = 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'; // Default: "123"
-
-        function showLoginPrompt() {
-            document.getElementById('loginOverlay').classList.add('active');
-            document.getElementById('adminPassword').focus();
-            document.getElementById('errorMessage').classList.remove('show');
-        }
-
-        function closeLogin() {
-            document.getElementById('loginOverlay').classList.remove('active');
-            document.getElementById('adminPassword').value = '';
-            document.getElementById('errorMessage').classList.remove('show');
+            const hash = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
         async function checkPassword() {
-            const password = document.getElementById('adminPassword').value;
-            const hash = await hashPassword(password);
-            
-            if (hash === ADMIN_PASSWORD_HASH) {
-                isAdminLoggedIn = true;
+            const pwd = document.getElementById('adminPassword').value;
+            if (await hashPassword(pwd) === ADMIN_HASH) {
+                isAdmin = true;
                 closeLogin();
-                toggleAdmin();
+                document.getElementById('adminPanel').classList.add('active');
             } else {
                 document.getElementById('errorMessage').classList.add('show');
-                document.getElementById('adminPassword').value = '';
             }
         }
 
-        function toggleAdmin() {
-            if (!isAdminLoggedIn) {
-                showLoginPrompt();
-                return;
-            }
-            const panel = document.getElementById('adminPanel');
-            panel.classList.toggle('active');
-        }
-
-        async function initializeBlog() {
-            await loadPosts();
-            renderBlogPosts();
-        }
-
-        async function loadPosts() {
-            try {
-                // Try window.storage first (for Claude.ai environment)
-                if (window.storage && window.storage.get) {
-                    const result = await window.storage.get('blog_posts');
-                    if (result && result.value) {
-                        posts = JSON.parse(result.value);
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Window storage not available, trying localStorage');
-            }
-            
-            // Fallback to localStorage (works in deployed sites and most browsers)
-            try {
-                const savedPosts = localStorage.getItem('blog_posts');
-                if (savedPosts) {
-                    posts = JSON.parse(savedPosts);
-                    return;
-                }
-            } catch (error) {
-                console.log('localStorage not available');
-            }
-            
-            // If nothing works, start with empty array
-            posts = [];
-        }
-
-        async function savePosts() {
-            try {
-                // Try window.storage first (for Claude.ai environment)
-                if (window.storage && window.storage.set) {
-                    await window.storage.set('blog_posts', JSON.stringify(posts));
-                }
-            } catch (error) {
-                console.log('Window storage not available');
-            }
-            
-            // Always try localStorage as backup (works in most environments)
-            try {
-                localStorage.setItem('blog_posts', JSON.stringify(posts));
-            } catch (error) {
-                console.log('localStorage not available');
-            }
-        }
-
-        function toggleAdmin() {
-            const panel = document.getElementById('adminPanel');
-            panel.classList.toggle('active');
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('Image size should be less than 5MB');
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentImage = e.target.result;
-                    const uploadArea = document.getElementById('uploadArea');
-                    uploadArea.classList.add('has-image');
-                    uploadArea.innerHTML = `<img src="${currentImage}" class="image-preview" alt="Preview">`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function addPost(event) {
-            event.preventDefault();
-
-            const newPost = {
-                id: Date.now(),
-                title: document.getElementById('postTitle').value,
-                category: document.getElementById('postCategory').value,
-                image: currentImage || null,
-                excerpt: document.getElementById('postExcerpt').value,
-                content: document.getElementById('postContent').value,
-                readTime: document.getElementById('postReadTime').value,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-            };
-
-            posts.unshift(newPost);
-            await savePosts();
-            renderBlogPosts();
-            resetForm();
-            toggleAdmin();
-        }
-
-        async function deletePost(id) {
-            if (confirm('Are you sure you want to delete this post?')) {
-                posts = posts.filter(post => post.id !== id);
-                await savePosts();
-                renderBlogPosts();
-            }
-        }
-
+        function showLoginPrompt() { document.getElementById('loginOverlay').classList.add('active'); }
+        function closeLogin() { document.getElementById('loginOverlay').classList.remove('active'); }
+        function closePostModal() { document.getElementById('postModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        
         function resetForm() {
             document.getElementById('postForm').reset();
-            currentImage = null;
-            const uploadArea = document.getElementById('uploadArea');
-            uploadArea.classList.remove('has-image');
-            uploadArea.innerHTML = `
-                <p>Click to upload cover image</p>
-                <p style="font-size: 0.9rem; color: #999;">JPG, PNG, or GIF (Max 5MB)</p>
-            `;
+            document.getElementById('uploadArea').innerHTML = '<p>Click to upload image</p>';
         }
-
-        function openPostModal(postId) {
-            const post = posts.find(p => p.id === postId);
-            if (!post) return;
-
-            document.getElementById('modalCategory').textContent = post.category;
-            document.getElementById('modalTitle').textContent = post.title;
-            document.getElementById('modalMeta').textContent = `${post.date} • ${post.readTime} min read`;
-            document.getElementById('modalContent').textContent = post.content;
-            
-            const modalHeader = document.getElementById('modalHeader');
-            if (post.image) {
-                modalHeader.innerHTML = `
-                    <img src="${post.image}" alt="${post.title}">
-                    <button class="modal-close" onclick="closePostModal()">×</button>
-                `;
-            } else {
-                modalHeader.innerHTML = `<button class="modal-close" onclick="closePostModal()">×</button>`;
-            }
-
-            // Store current post for sharing
-            window.currentPost = post;
-            
-            document.getElementById('postModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePostModal() {
-            document.getElementById('postModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function shareToFacebook() {
-            const post = window.currentPost;
-            if (!post) return;
-
-            // Facebook share URL - replace YOUR_WEBSITE_URL with your actual site URL
-            const url = encodeURIComponent(window.location.href);
-            const quote = encodeURIComponent(`${post.title} - ${post.excerpt}`);
-            
-            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`;
-            
-            window.open(facebookUrl, 'facebook-share-dialog', 'width=800,height=600');
-        }
-
-        function renderBlogPosts() {
-            const grid = document.getElementById('blogGrid');
-            
-            if (posts.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <h3>No posts yet</h3>
-                        <p>Click the Admin button to add your first post!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = posts.map(post => `
-                <div class="blog-card" data-category="${post.category}">
-                    ${post.image ? 
-                        `<img src="${post.image}" class="card-image" alt="${post.title}">` :
-                        `<div class="card-image"></div>`
-                    }
-                    <div class="card-actions">
-                        <button onclick="deletePost(${post.id})">Delete</button>
-                    </div>
-                    <div class="card-content">
-                        <span class="card-category">${post.category}</span>
-                        <h2 class="card-title">${post.title}</h2>
-                        <p class="card-excerpt">${post.excerpt}</p>
-                        <div class="card-meta">
-                            <span>${post.date} • ${post.readTime} min read</span>
-                            <a href="#" class="read-more" onclick="event.preventDefault(); openPostModal(${post.id})">Read More →</a>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterPosts(category) {
-            const cards = document.querySelectorAll('.blog-card');
-            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-            
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const excerpt = card.querySelector('.card-excerpt').textContent.toLowerCase();
-                const matchesSearch = title.includes(searchTerm) || excerpt.includes(searchTerm);
-                const matchesCategory = category === 'all' || card.dataset.category === category;
-                
-                if (matchesSearch && matchesCategory) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        }
-
-        document.getElementById('searchBox').addEventListener('input', () => {
-            const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
-            filterPosts(activeCategory);
-        });
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                filterPosts(btn.dataset.category);
-            });
-        });
-
-        initializeBlog();
     </script>
-        <script type="module">
-          // 1. These lines pull the tools from the internet
-              import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-              import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-          import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
-          // 2. This is your specific project's address (Use your Blaze config here)
-              const firebaseConfig = {
-                apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
-                authDomain: "upward-edu-ai.firebaseapp.com",
-                projectId: "upward-edu-ai",
-                storageBucket: "upward-edu-ai.firebasestorage.app",
-                messagingSenderId: "576087580584",
-                appId: "1:576087580584:web:29d1a63cb48acac34b879d"
-          };
-
-                  // 3. This starts the connection
-                  const app = initializeApp(firebaseConfig);
-                  const db = getFirestore(app);
-                  const storage = getStorage(app);
-
-                  // 4. This makes the database available to your "app.js"
-                  window.db = db;
-                  window.storage = storage;
-  
-              console.log("Firebase is connected!");
-            </script>
-
-        <script type="module" src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
