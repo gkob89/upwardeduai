@@ -221,12 +221,13 @@
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
-            authDomain: "upward-edu-ai.firebaseapp.com",
-            projectId: "upward-edu-ai",
-            storageBucket: "upward-edu-ai.firebasestorage.app",
-            messagingSenderId: "576087580584",
-            appId: "1:576087580584:web:29d1a63cb48acac34b879d"
+    apiKey: "AIzaSyBVPmpJ3yFyV9_rggnHu1a5lmP28AVJHUk",
+    authDomain: "upward-edu-ai.firebaseapp.com",
+    projectId: "upward-edu-ai",
+    // THIS LINE MUST MATCH YOUR NEW BUCKET:
+    storageBucket: "upward-edu-ai.firebasestorage.app", 
+    messagingSenderId: "576087580584",
+    appId: "1:576087580584:web:29d1a63cb48acac34b879d"
         };
 
         const app = initializeApp(firebaseConfig);
