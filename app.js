@@ -1,4 +1,4 @@
-// 1. Setup global variables
+// Sync with Firebase Bridge
 const { 
     collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, updateDoc,
     ref, uploadBytes, getDownloadURL 
@@ -6,143 +6,161 @@ const {
 
 const db = window.db;
 const storage = window.storage;
-let selectedFile = null; 
+let selectedFile = null;
 let allPosts = [];
 
-// 2. IMAGE HANDLER (Fixes the "site won't keep it" issue)
+// --- IMAGE SELECTION ---
 window.handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-        selectedFile = file; // Store the actual file in our global variable
+        selectedFile = file;
         const reader = new FileReader();
         reader.onload = (e) => {
-            const previewContainer = document.getElementById('imagePreviewContainer');
-            // Show the user that the image is "kept"
-            previewContainer.innerHTML = `
-                <div style="margin-top:10px;">
-                    <p style="font-size:0.8rem; color:green;">✓ Image selected: ${file.name}</p>
-                    <img src="${e.target.result}" style="max-width:150px; border-radius:8px; margin-top:5px;">
-                </div>`;
+            document.getElementById('imagePreviewContainer').innerHTML = `
+                <img src="${e.target.result}" style="max-width:200px; border-radius:8px; margin-top:10px;">
+                <p style="color:green; font-size:0.8rem;">Ready for upload</p>`;
         };
         reader.readAsDataURL(file);
     }
 };
 
-// 3. SUBMIT LOGIC (Create & Edit)
-window.submitPost = async () => {
-    const docId = document.getElementById('edit-doc-id').value;
-    const title = document.getElementById('postTitle').value;
-    const excerpt = document.getElementById('postExcerpt').value;
-    const content = window.editor.root.innerHTML; // Gets formatted text from Quill
-
-    if (!title || !content) {
-        alert("Please enter at least a title and content.");
-        return;
-    }
-
-    try {
-        let imageUrl = null;
-        // Upload image only if a new one was selected
-        if (selectedFile) {
-            const sRef = ref(storage, `covers/${Date.now()}_${selectedFile.name}`);
-            const snap = await uploadBytes(sRef, selectedFile);
-            imageUrl = await getDownloadURL(snap.ref);
-        }
-
-        const postData = {
-            title: title,
-            excerpt: excerpt,
-            content: content,
-            updatedAt: Date.now()
-        };
-
-        if (imageUrl) postData.image = imageUrl;
-
-        if (docId) {
-            await updateDoc(doc(db, "posts", docId), postData);
-            alert("Post updated successfully!");
-        } else {
-            postData.createdAt = Date.now();
-            postData.date = new Date().toLocaleDateString();
-            await addDoc(collection(db, "posts"), postData);
-            alert("Post published successfully!");
-        }
-        location.reload();
-    } catch (e) {
-        console.error(e);
-        alert("Error: " + e.message);
-    }
-};
-
-// 4. DASHBOARD & GRID RENDERERS
-async function loadData() {
-    try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-        const snap = await getDocs(q);
-        allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        
-        renderGrid();
-        renderDashboard();
-    } catch (e) {
-        console.error("Load Error:", e);
-    }
+// --- DATA LOGIC ---
+async function fetchContent() {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    allPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderUI();
 }
 
-function renderGrid() {
+function renderUI() {
+    // 1. Render Homepage Grid
     const grid = document.getElementById('blogGrid');
-    // Enforcing the 4-column symmetric grid
     grid.innerHTML = allPosts.map(p => `
         <div class="blog-card">
-            <img src="${p.image || 'https://via.placeholder.com/400x200?text=No+Image'}" class="card-image">
+            <img src="${p.image || 'https://via.placeholder.com/400x200?text=Upward+Edu'}" class="card-image">
             <div class="card-body">
-                <h2 class="card-title" style="color:white;">${p.title}</h2>
-                <p style="color:#aaa; font-size:0.85rem; margin-bottom:15px;">${p.excerpt}</p>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">
-                    <button onclick="window.sharePost('${p.title}')" style="background:none; border:none; color:#667eea; cursor:pointer; font-size:0.8rem;">Share</button>
-                    <button onclick="window.openFullPost('${p.id}')" style="background:#667eea; border:none; padding:6px 12px; border-radius:4px; color:white; cursor:pointer; font-size:0.8rem;">Read</button>
+                <h2 class="card-title">${p.title}</h2>
+                <p class="card-excerpt">${p.excerpt}</p>
+                <div class="card-footer">
+                    <button class="btn-share" onclick="window.sharePost('${p.title}')">Share</button>
+                    <button class="btn-read" onclick="window.openFullPost('${p.id}')">Read Article</button>
                 </div>
             </div>
         </div>
     `).join('');
-}
 
-function renderDashboard() {
+    // 2. Render Dashboard Table
     const tbody = document.getElementById('dash-tbody');
     tbody.innerHTML = allPosts.map(p => `
-        <tr style="border-bottom: 1px solid #eee;">
-            <td style="padding:10px;">${p.title}</td>
-            <td style="padding:10px;">${p.date}</td>
-            <td style="padding:10px;">
-                <button onclick="window.editPost('${p.id}')" style="margin-right:5px; cursor:pointer;">Edit</button>
-                <button onclick="window.deletePost('${p.id}')" style="color:red; cursor:pointer;">Delete</button>
+        <tr>
+            <td><strong>${p.title}</strong></td>
+            <td>${p.date}</td>
+            <td>
+                <button onclick="window.initEdit('${p.id}')" style="padding:5px 10px; cursor:pointer;">Edit</button>
+                <button onclick="window.deletePost('${p.id}')" style="padding:5px 10px; color:red; cursor:pointer;">Delete</button>
             </td>
         </tr>
     `).join('');
 }
 
-// 5. ACTIONS
-window.editPost = (id) => {
+// --- SUBMIT (CREATE OR UPDATE) ---
+window.submitPost = async () => {
+    const docId = document.getElementById('edit-doc-id').value;
+    const title = document.getElementById('postTitle').value;
+    const excerpt = document.getElementById('postExcerpt').value;
+    const content = window.editor.root.innerHTML;
+    const readTime = document.getElementById('postReadTime').value;
+
+    if(!title || !content) return alert("Title and Content are required.");
+
+    try {
+        let imageUrl = null;
+        if (selectedFile) {
+            const sRef = ref(storage, `covers/${Date.now()}_${selectedFile.name}`);
+            const uploadSnap = await uploadBytes(sRef, selectedFile);
+            imageUrl = await getDownloadURL(uploadSnap.ref);
+        }
+
+        const data = { title, excerpt, content, readTime, updatedAt: Date.now() };
+        if (imageUrl) data.image = imageUrl;
+
+        if (docId) {
+            await updateDoc(doc(db, "posts", docId), data);
+            alert("Post updated!");
+        } else {
+            data.createdAt = Date.now();
+            data.date = new Date().toLocaleDateString();
+            await addDoc(collection(db, "posts"), data);
+            alert("New post published!");
+        }
+        location.reload();
+    } catch (e) { alert(e.message); }
+};
+
+// --- CRUD ACTIONS ---
+window.initEdit = (id) => {
     const p = allPosts.find(x => x.id === id);
     document.getElementById('edit-doc-id').value = p.id;
     document.getElementById('postTitle').value = p.title;
     document.getElementById('postExcerpt').value = p.excerpt;
-    window.editor.root.innerHTML = p.content; // Put the HTML back into the editor
+    document.getElementById('postReadTime').value = p.readTime || 5;
+    window.editor.root.innerHTML = p.content;
     
     document.getElementById('dashboard-list').style.display = 'none';
     document.getElementById('post-form-section').style.display = 'block';
 };
 
 window.deletePost = async (id) => {
-    if(confirm("Are you sure you want to delete this post?")) {
+    if(confirm("Confirm deletion?")) {
         await deleteDoc(doc(db, "posts", id));
         location.reload();
     }
 };
 
-window.sharePost = (title) => {
-    const url = window.location.href;
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent("Check out this post: " + title)}`;
-    window.open(shareUrl, '_blank', 'width=600,height=400');
+window.openFullPost = (id) => {
+    const p = allPosts.find(x => x.id === id);
+    if(!p) return;
+
+    document.getElementById('modalTitle').innerText = p.title;
+    document.getElementById('modalMeta').innerText = `${p.date} • ${p.readTime || 5} min read • by UPWARD EDU`;
+    document.getElementById('modalContent').innerHTML = p.content;
+    
+    const header = document.getElementById('modalHeader');
+    header.innerHTML = p.image ? `<img src="${p.image}">` : `<div style="height:100px; background:linear-gradient(135deg,#667eea,#764ba2)"></div>`;
+    
+    document.getElementById('postModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.title = `${p.title} | Upward Edu AI`;
 };
 
-loadData();
+window.sharePost = (title) => {
+    const url = window.location.href;
+    const fb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title)}`;
+    window.open(fb, '_blank', 'width=600,height=400');
+};
+
+// Search Filter
+document.getElementById('searchBox').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const filtered = allPosts.filter(p => p.title.toLowerCase().includes(term) || p.content.toLowerCase().includes(term));
+    renderPostsToGrid(filtered);
+});
+
+function renderPostsToGrid(posts) {
+    const grid = document.getElementById('blogGrid');
+    grid.innerHTML = posts.map(p => `
+        <div class="blog-card">
+            <img src="${p.image || 'https://via.placeholder.com/400x200'}" class="card-image">
+            <div class="card-body">
+                <h2 class="card-title">${p.title}</h2>
+                <p class="card-excerpt">${p.excerpt}</p>
+                <div class="card-footer">
+                    <button class="btn-share" onclick="window.sharePost('${p.title}')">Share</button>
+                    <button class="btn-read" onclick="window.openFullPost('${p.id}')">Read Article</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+fetchContent();
