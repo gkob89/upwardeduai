@@ -65,36 +65,59 @@ function renderUI() {
 
 // --- SUBMIT (CREATE OR UPDATE) ---
 window.submitPost = async () => {
+    // 1. Get the button so we can show "Loading"
+    const submitBtn = document.querySelector('button[onclick="window.submitPost()"]');
+    const originalText = submitBtn.innerText;
+
     const docId = document.getElementById('edit-doc-id').value;
     const title = document.getElementById('postTitle').value;
     const excerpt = document.getElementById('postExcerpt').value;
-    const content = window.editor.root.innerHTML;
+    const content = window.editor.root.innerHTML; 
     const readTime = document.getElementById('postReadTime').value;
 
-    if(!title || !content) return alert("Title and Content are required.");
+    if (!title || content === "<p><br></p>") {
+        alert("Please enter a title and some content.");
+        return;
+    }
 
     try {
+        // Change button to show it IS working
+        submitBtn.innerText = "Processing... Wait";
+        submitBtn.disabled = true;
+
         let imageUrl = null;
         if (selectedFile) {
+            console.log("Uploading image...");
             const sRef = ref(storage, `covers/${Date.now()}_${selectedFile.name}`);
-            const uploadSnap = await uploadBytes(sRef, selectedFile);
-            imageUrl = await getDownloadURL(uploadSnap.ref);
+            const snap = await uploadBytes(sRef, selectedFile);
+            imageUrl = await getDownloadURL(snap.ref);
         }
 
-        const data = { title, excerpt, content, readTime, updatedAt: Date.now() };
-        if (imageUrl) data.image = imageUrl;
+        const postData = {
+            title, excerpt, content, readTime,
+            updatedAt: Date.now()
+        };
+        if (imageUrl) postData.image = imageUrl;
 
         if (docId) {
-            await updateDoc(doc(db, "posts", docId), data);
-            alert("Post updated!");
+            console.log("Updating existing post...");
+            await updateDoc(doc(db, "posts", docId), postData);
         } else {
-            data.createdAt = Date.now();
-            data.date = new Date().toLocaleDateString();
-            await addDoc(collection(db, "posts"), data);
-            alert("New post published!");
+            console.log("Creating new post...");
+            postData.createdAt = Date.now();
+            postData.date = new Date().toLocaleDateString();
+            await addDoc(collection(db, "posts"), postData);
         }
+
+        alert("Success! Your post is live.");
         location.reload();
-    } catch (e) { alert(e.message); }
+    } catch (e) {
+        console.error("Critical Error:", e);
+        alert("Error: " + e.message);
+        // Reset button so you can try again
+        submitBtn.innerText = originalText;
+        submitBtn.disabled = false;
+    }
 };
 
 // --- CRUD ACTIONS ---
